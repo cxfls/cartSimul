@@ -77,6 +77,7 @@ export default function ProductCard({ product: p }: Props) {
               e.stopPropagation();
               toggleLike(p.id);
             }}
+            whileTap={{ scale: 0.85 }}
             animate={isLiked ? { scale: [1, 1.5, 0.8, 1] } : { scale: 1 }}
             transition={{ duration: 0.3 }}
             className={`absolute cursor-pointer bottom-1.5 right-1.5 w-6 h-6 md:text-lg text-sm flex items-center justify-center rounded-full transition ${
