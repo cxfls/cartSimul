@@ -1,58 +1,47 @@
 "use client";
 
 import { mockProducts } from "@/data/product";
-import { useCartStore } from "@/store/cartStore";
+import ProductCard from "./ProductCard";
 import { Toaster } from "react-hot-toast";
-import { FaHeart } from "react-icons/fa";
-import toast from "react-hot-toast";
-import { useLikeStore } from "@/store/likeStore";
+import { useMemo, useState } from "react";
 
 export default function MainPage() {
-  const addItem = useCartStore((s) => s.addItem);
-  const { likedIds, toggleLike } = useLikeStore();
+  const [activeCategory, setActiveCategory] = useState<string>("ALL");
+  const categories = useMemo(() => {
+    const set = new Set<string>();
+    mockProducts.forEach((p) => set.add(p.category));
+    return ["ALL", ...Array.from(set)];
+  }, []);
+
+  const filteredProducts = useMemo(() => {
+    if (activeCategory === "ALL") return mockProducts;
+    return mockProducts.filter((p) => p.category === activeCategory);
+  }, [activeCategory]);
 
   return (
     <div className="max-w-5xl px-3 lg:px-0 mx-auto">
-      <div className="grid lg:grid-cols-5 md:grid-cols-4 grid-cols-3 justify-items-center">
-        {mockProducts.map((p) => (
-          <div
-            key={p.id}
-            className="md:w-40 w-30 mb-4 cursor-pointer group relative"
-            onClick={() => {
-              addItem(p);
-              toast.success("장바구니에 추가되었습니다!");
-            }}
-          >
-            <div className="md:w-40 md:h-40 h-30 w-30 rounded-xl bg-neutral-100 flex items-center justify-center lg:text-[80px] text-6xl">
-              {p.emoji}
-            </div>
-            <div className="absolute bg-white/50 md:w-40 md:h-40 w-30 h-30 opacity-0 group-hover:opacity-100 inset-0 flex items-center justify-center rounded-xl transition">
-              <p className="bg-neutral-300/70 w-7 h-7 lg:w-9 lg:h-9 rounded-full text-white text-lg lg:text-2xl font-bold flex items-center justify-center">
-                +
-              </p>
-            </div>
+      <div className="flex flex-wrap items-center justify-center gap-2 px-6 mb-2.5">
+        {categories.map((cat) => {
+          const isActive = activeCategory === cat;
 
-            <h2 className="md:text-lg pt-1.5">{p.name}</h2>
-            <p className="md:text-sm text-xs text-neutral-600">
-              {p.description}
-            </p>
-            <div className="flex items-center justify-between">
-              <p className="md:text-lg  font-semibold">
-                {p.price.toLocaleString("ko-KR")}원
-              </p>
-              <button
-                onClick={(e) => {
-                  e.stopPropagation();
-                  toggleLike(p.id);
-                }}
-                className={`cursor-pointer border border-neutral-200 w-6 h-6 text-xs flex items-center justify-center rounded-full transition ${
-                  likedIds.includes(p.id) ? "text-red-400" : "text-neutral-300"
-                }`}
-              >
-                <FaHeart />
-              </button>
-            </div>
-          </div>
+          return (
+            <button
+              key={cat}
+              onClick={() => setActiveCategory(cat)}
+              className={`border rounded-2xl px-2.5 py-1 text-sm cursor-pointer transition ${
+                isActive
+                  ? "bg-black text-white border-black"
+                  : "bg-white text-neutral-700 border-neutral-300 hover:bg-neutral-100"
+              }`}
+            >
+              {cat === "ALL" ? "전체" : cat}
+            </button>
+          );
+        })}
+      </div>
+      <div className="grid lg:grid-cols-5 md:grid-cols-4 grid-cols-3 justify-items-center">
+        {filteredProducts.map((p) => (
+          <ProductCard key={p.id} product={p} />
         ))}
       </div>
       <Toaster

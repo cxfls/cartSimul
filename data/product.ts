@@ -4,6 +4,7 @@ export type Product = {
   price: number;
   emoji: string;
   description: string;
+  category: string;
 };
 
 export const mockProducts: Product[] = [
@@ -13,6 +14,7 @@ export const mockProducts: Product[] = [
     price: 30000,
     emoji: "🥋",
     description: "편안한 촬영용 도복 스타일 아이템",
+    category: "스포츠",
   },
   {
     id: "p2",
@@ -20,6 +22,7 @@ export const mockProducts: Product[] = [
     price: 45000,
     emoji: "👗",
     description: "다양한 룩에 어울리는 심플 원피스",
+    category: "원피스",
   },
   {
     id: "p3",
@@ -27,6 +30,7 @@ export const mockProducts: Product[] = [
     price: 15000,
     emoji: "🧤",
     description: "보온성과 스타일을 모두 갖춘 장갑",
+    category: "패션소품",
   },
   {
     id: "p4",
@@ -34,6 +38,7 @@ export const mockProducts: Product[] = [
     price: 32000,
     emoji: "👚",
     description: "가볍고 편안한 데일리 블라우스",
+    category: "상의",
   },
   {
     id: "p5",
@@ -41,6 +46,7 @@ export const mockProducts: Product[] = [
     price: 19000,
     emoji: "👕",
     description: "기본 데일리 반팔 티셔츠",
+    category: "상의",
   },
   {
     id: "p6",
@@ -48,6 +54,7 @@ export const mockProducts: Product[] = [
     price: 38000,
     emoji: "👖",
     description: "언제나 어울리는 데님 팬츠",
+    category: "하의",
   },
   {
     id: "p7",
@@ -55,6 +62,7 @@ export const mockProducts: Product[] = [
     price: 22000,
     emoji: "🧣",
     description: "부드럽고 따뜻한 겨울용 머플러",
+    category: "패션소품",
   },
   {
     id: "p8",
@@ -62,6 +70,7 @@ export const mockProducts: Product[] = [
     price: 8000,
     emoji: "🧦",
     description: "편안한 착용감의 기본 양말",
+    category: "패션소품",
   },
   {
     id: "p9",
@@ -69,6 +78,7 @@ export const mockProducts: Product[] = [
     price: 12000,
     emoji: "🩲",
     description: "편안한 트렁크 스타일 팬티",
+    category: "속옷",
   },
   {
     id: "p10",
@@ -76,6 +86,7 @@ export const mockProducts: Product[] = [
     price: 28000,
     emoji: "🩱",
     description: "활동성 좋은 원피스형 수영복",
+    category: "스포츠",
   },
   {
     id: "p11",
@@ -83,6 +94,7 @@ export const mockProducts: Product[] = [
     price: 22000,
     emoji: "🩳",
     description: "여름 필수 기본 반바지",
+    category: "하의",
   },
   {
     id: "p12",
@@ -90,6 +102,7 @@ export const mockProducts: Product[] = [
     price: 18000,
     emoji: "🧢",
     description: "캐주얼 룩에 딱 맞는 야구모자",
+    category: "패션소품",
   },
   {
     id: "p13",
@@ -97,6 +110,7 @@ export const mockProducts: Product[] = [
     price: 34000,
     emoji: "👔",
     description: "포멀룩에 어울리는 셔츠",
+    category: "상의",
   },
   {
     id: "p14",
@@ -104,6 +118,7 @@ export const mockProducts: Product[] = [
     price: 15000,
     emoji: "🎽",
     description: "운동할 때 편안한 러닝 나시",
+    category: "상의",
   },
   {
     id: "p15",
@@ -111,6 +126,7 @@ export const mockProducts: Product[] = [
     price: 60000,
     emoji: "🥼",
     description: "깔끔한 디자인의 화이트 코트",
+    category: "아우터",
   },
   {
     id: "p16",
@@ -118,6 +134,7 @@ export const mockProducts: Product[] = [
     price: 55000,
     emoji: "🧥",
     description: "스타일을 더해주는 데일리 재킷",
+    category: "아우터",
   },
   {
     id: "p17",
@@ -125,6 +142,7 @@ export const mockProducts: Product[] = [
     price: 49000,
     emoji: "👠",
     description: "포멀룩과 잘 어울리는 하이힐",
+    category: "신발",
   },
   {
     id: "p18",
@@ -132,6 +150,7 @@ export const mockProducts: Product[] = [
     price: 27000,
     emoji: "👡",
     description: "여름에 시원하게 착용 가능한 샌들",
+    category: "신발",
   },
   {
     id: "p19",
@@ -139,6 +158,7 @@ export const mockProducts: Product[] = [
     price: 59000,
     emoji: "👢",
     description: "겨울철 필수 아이템 부츠",
+    category: "신발",
   },
   {
     id: "p20",
@@ -146,6 +166,7 @@ export const mockProducts: Product[] = [
     price: 52000,
     emoji: "👞",
     description: "포멀 스타일에 어울리는 슈즈",
+    category: "신발",
   },
   {
     id: "p21",
@@ -153,6 +174,7 @@ export const mockProducts: Product[] = [
     price: 43000,
     emoji: "👟",
     description: "데일리로 신기 좋은 운동화",
+    category: "신발",
   },
   {
     id: "p22",
@@ -160,6 +182,7 @@ export const mockProducts: Product[] = [
     price: 62000,
     emoji: "🥾",
     description: "튼튼하고 활동성 좋은 트래킹 부츠",
+    category: "신발",
   },
   {
     id: "p23",
@@ -167,6 +190,7 @@ export const mockProducts: Product[] = [
     price: 9000,
     emoji: "🧦",
     description: "스포츠 활동에 적합한 양말",
+    category: "패션소품",
   },
   {
     id: "p24",
@@ -174,6 +198,7 @@ export const mockProducts: Product[] = [
     price: 38000,
     emoji: "🎒",
     description: "넉넉한 수납의 데일리 백팩",
+    category: "패션소품",
   },
   {
     id: "p25",
@@ -181,6 +206,7 @@ export const mockProducts: Product[] = [
     price: 56000,
     emoji: "👜",
     description: "세련된 디자인의 핸드백",
+    category: "패션소품",
   },
   {
     id: "p26",
@@ -188,6 +214,7 @@ export const mockProducts: Product[] = [
     price: 25000,
     emoji: "👓",
     description: "깔끔한 기본 스타일 안경",
+    category: "패션소품",
   },
   {
     id: "p27",
@@ -195,6 +222,7 @@ export const mockProducts: Product[] = [
     price: 29000,
     emoji: "🕶️",
     description: "햇빛 차단에 탁월한 선글라스",
+    category: "패션소품",
   },
   {
     id: "p28",
@@ -202,6 +230,7 @@ export const mockProducts: Product[] = [
     price: 24000,
     emoji: "🥽",
     description: "스포츠와 레저용 보호 고글",
+    category: "패션소품",
   },
   {
     id: "p29",
@@ -209,5 +238,6 @@ export const mockProducts: Product[] = [
     price: 21000,
     emoji: "👒",
     description: "햇빛 가리기에 좋은 여름 모자",
+    category: "패션소품",
   },
 ];
