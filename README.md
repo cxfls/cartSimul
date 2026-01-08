@@ -1,87 +1,95 @@
-🛒 Cart Simulator – 쇼핑몰 장바구니 시뮬레이터
+# Cart Simulator — Zustand 기반 장바구니 상태 관리 & UI 인터랙션 프로젝트
 
-사용자가 상품을 장바구니에 담고, 수량을 조절하고, 총 금액을 확인할 수 있는
-간단하지만 실전과 가까운 쇼핑몰 장바구니 UI입니다.
+Cart Simulator는 **쇼핑몰 장바구니의 핵심 흐름(추가 → 수량 변경 → 삭제 → 합계 계산)**을  
+작은 규모의 프로젝트 안에서 **상태 관리 관점으로 정확히 구현**하는 데 초점을 둔 포트폴리오 프로젝트입니다.
 
-상태 관리는 Zustand로 구현하여 가볍고 직관적인 전역 상태 관리 흐름을 익히는 데 집중했습니다.
-⸻
+단순히 “장바구니 화면”을 만드는 것이 아니라,  
+**전역 상태(Zustand) 설계, selector 기반 계산, UI 피드백(Toast)과 애니메이션(Framer Motion)**을 통해  
+실무에서 자주 마주치는 사용자 인터랙션을 안정적으로 처리하는 구조를 목표로 했습니다.
 
-🚀 배포 주소
+---
 
-👉 https://cart-simulator-six.vercel.app/cart
+## Live Demo
 
-⸻
+🔗 https://cart-simul.vercel.app/
 
-📌 핵심 기능 (MVP)
+---
 
-🛍️ 상품 목록
-• 반응형 그리드 UI
-• 상품 이미지 / 이름 / 가격 표시
-• Hover 시 overlay + “Add to Cart” 인터랙션
+## 문제 정의 (Problem Statement)
 
-🧺 장바구니 기능
-• 장바구니에 상품 추가
-• 동일 상품은 수량 증가 (중복 추가 X)
-• 상품 수량 증가/감소
-• 상품 제거
-• 장바구니 초기화(clear)
-• 총 수량, 총 금액 실시간 계산 (Zustand selector + reduce)
+장바구니 기능은 구현 자체는 단순해 보이지만, 실제로는 다음과 같은 요구사항이 함께 따라옵니다.
 
-🔔 사용자 피드백
-• 장바구니 담을 때 toast 알림 표현
-• “장바구니에 추가되었습니다!”
-• 비침해적인 UX 구현
+- 동일 상품 중복 추가 시 **수량 증가로 처리**(중복 row 생성 방지)
+- 수량 변경이 합계/총수량에 **즉시 반영**
+- 수량이 0 이하가 되면 **자동 제거**
+- “빈 장바구니” 등 **엣지 케이스 UX 처리**
+- 사용자의 행동(담기/삭제)에 대한 **즉각적 피드백**
+- UI가 복잡해져도 상태 흐름을 **예측 가능하게 유지**
 
-⸻
+Cart Simulator는 위 요구사항을 **Zustand 중심 구조**로 정리해 해결합니다.
 
-🧩 Zustand로 상태 관리한 이유
-• Redux보다 설정이 가볍고 러닝커브가 낮음
-• 전역 상태를 함수 기반으로 구조화할 수 있어 명료한 로직 구성 가능
-• 특정 state만 구독하여 불필요한 리렌더링을 방지
-• 작은 규모의 상태 관리에 가장 최적화된 형태
+---
 
-🖥️ UI 디자인 포인트
-• Tailwind로 빠르고 일관성 있는 스타일 적용
-• 이미지 hover 시 밝아지는 overlay & + 아이콘 등장
-• toast 알림으로 즉각적인 피드백 제공
-• 최소한의 컴포넌트 구조로 가독성 유지
-⸻
+## 핵심 설계 방향 (Core Design Principles)
 
-🧰 기술 스택
+### 1. 상태는 store에, UI는 화면에
 
-Frontend
-• Next.js (App Router)
-• React
-• TypeScript
-• Tailwind CSS
-• Zustand (전역 상태 관리)
+- 장바구니의 진짜 “정답”은 컴포넌트 state가 아니라 **store의 단일 상태(source of truth)**
+- UI는 store 상태를 구독해 렌더링하고, 액션만 호출하도록 역할을 제한
 
-ETC
-• Vercel 배포
-• Unsplash 이미지 리소스 사용
+### 2. 파생 값은 selector + reduce로 계산
 
-⸻
+- 총 수량/총 금액은 “저장”하지 않고, **현재 items로부터 계산**
+- 상태 변경 시에도 일관성을 유지하고, 데이터 불일치 가능성을 줄임
 
-🧱 프로젝트 구조
+### 3. 사용자 피드백과 인터랙션을 제품처럼 구성
 
-```
-cart-simulator/
-├── app/
-│   ├── components/
-│   │   ├── Header.tsx
-│   │   ├── ProductCard.tsx
-│   │   └── ToastProvider.tsx
-│   ├── cart/page.tsx
-│   ├── page.tsx
-│   └── layout.tsx
-├── store/
-│   └── cartStore.ts
-└── public/
-```
+- Toast로 즉시 피드백 제공
+- 리스트 추가/삭제, 배지 카운트 변화에 애니메이션을 적용해 체감 품질 개선
 
-🗂 Zustand 상태 관리 구조
+---
 
-CartState 타입
+## 주요 기능 (Features)
+
+- 상품 목록(카테고리 필터 포함)
+- 장바구니 담기
+  - 동일 상품은 수량 증가
+  - Toast 알림 제공
+- 장바구니 수량 증감(+/-)
+  - 수량 0 이하 자동 제거
+- 개별 삭제 / 전체 삭제
+- 총 수량 / 총 금액 실시간 계산
+- 찜(Like) 페이지
+  - 찜 토글, 전체 삭제
+- UI 인터랙션
+  - Hover overlay
+  - 배지(카트 카운트) 애니메이션
+  - 리스트 렌더링 애니메이션
+  - 가격 숫자 애니메이션(부드러운 변화)
+
+---
+
+## UI 인터랙션 포인트
+
+### 1) “담기” 체감 개선 — 이모지 플라잉 애니메이션
+
+- 상품 카드에서 헤더 카트 아이콘까지 이모지가 이동하는 애니메이션을 적용해
+  사용자가 “담겼다”는 피드백을 시각적으로 느낄 수 있도록 구성했습니다.
+
+### 2) 배지 카운트 애니메이션
+
+- 수량이 변할 때마다 배지가 spring 애니메이션으로 갱신되며,
+  상태 변화가 자연스럽게 전달되도록 했습니다.
+
+### 3) 가격 숫자 애니메이션
+
+- 총 금액이 급격히 바뀌는 대신, 작은 step으로 보간하며 부드럽게 변화하도록 처리했습니다.
+
+---
+
+## Zustand 상태 관리 — 핵심 구조
+
+장바구니 상태는 `items`와 액션들로 구성합니다.
 
 ```ts
 type CartState = {
@@ -95,27 +103,68 @@ type CartState = {
 };
 ```
 
-주요 로직 요약
-• items → 장바구니 배열
-• addItem(product) → 없으면 추가, 있으면 수량 증가
-• changeQuantity(id, delta) → +1 / -1 처리
-• removeItem(id) → 해당 id 상품 제거
-• clearCart() → 장바구니 초기화
-• getTotalCount() / getTotalPrice() → reduce로 합산
+### 설계 의도
 
-📘 배운 점 / 회고
-• Zustand 구조가 처음엔 어렵게 느껴졌지만
-“set으로 상태 변경 → 화면 자동 반영” 흐름이 익숙해지면서
-전역 상태 관리의 핵심을 더 잘 이해하게 됨.
-• Next.js App Router 환경에서 전역 상태를 다루는 구조를 경험함
-→ 클라이언트 컴포넌트/서버 컴포넌트 구분에 더 익숙해짐
-• UI/UX 디테일(hover overlay, toast feedback)을 넣어보면서
-“작은 프로젝트라도 디테일을 챙기면 완성도가 확 올라간다”는 걸 깨달음
+- `addItem`: 중복 row 생성 대신 **수량 증가**
+- `changeQuantity`: 수량 증감 후 0 이하는 자동 제거
+- `getTotalCount / getTotalPrice`: reduce 기반 파생 값 계산으로 **정합성 유지**
 
-👩🏻‍💻 만든 사람
+---
 
-이채린 | Frontend Developer
+## Architecture Overview
 
-    1.	반응형 + 빈 상태 + 엣지 상태 👉 무조건 마무리
-    2.	“주문하기 → 완료 UI + 장바구니 비우기” 👉 가능하면 꼭
-    3.	숫자 애니메이션 / 코드 리팩토링 👉 시간 남으면
+```
+cartSimul/
+├── app/
+│   ├── components/
+│   │   ├── Header.tsx
+│   │   ├── Main.tsx
+│   │   └── ProductCard.tsx
+│   ├── cart/page.tsx
+│   ├── like/page.tsx
+│   ├── layout.tsx
+│   └── page.tsx
+├── data/
+│   └── product.ts
+├── store/
+│   ├── cartStore.ts
+│   └── likeStore.ts
+└── README.md
+```
+
+- `store/`: 전역 상태 및 액션 정의
+- `data/`: 목업 상품 데이터(카테고리 포함)
+- `app/`: 화면 및 UI 컴포넌트(표현 중심)
+
+---
+
+## 기술 스택 (Tech Stack)
+
+- Next.js (App Router)
+- React
+- TypeScript
+- Tailwind CSS
+- Zustand (전역 상태 관리)
+- Framer Motion (UI 애니메이션)
+- React Hot Toast (피드백 UI)
+- Vercel (배포)
+
+---
+
+## 로컬 실행 (Getting Started)
+
+```bash
+npm install
+npm run dev
+```
+
+---
+
+## 회고 (What This Project Shows)
+
+이 프로젝트는 “상태 관리 라이브러리를 써봤다” 수준이 아니라,  
+**장바구니 도메인을 기준으로 상태를 설계하고 UI 인터랙션까지 제품처럼 완성**하는 것을 목표로 했습니다.
+
+- Zustand로 전역 상태를 설계하고, UI와 로직 책임을 분리한 경험
+- 파생 값 계산/엣지 케이스 처리로 상태 정합성을 유지한 경험
+- 애니메이션과 피드백을 통해 체감 품질을 끌어올리는 UI 구현 경험
